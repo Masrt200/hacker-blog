@@ -1,9 +1,9 @@
 title: Hacker-Blog
-description: "A Jekyll Blog Theme For Hackers"
+description: "Blog for my CTFs and Cyber-Security challenges' writeups"
 author:
-  name: "SomeHacker"
-  email: "someone@somewebsite.somedomain"
-  url: "https://ashishchaudhary.in/hacker-blog"
+  name: "Masrt200"
+  email: "immasrt@gmail.com"
+  url: "https://masrt200.github.io/hacker-blog/"
 
 baseurl: /
 
