@@ -3,6 +3,4 @@ title: Cryptologer
 layout: post
 ---
 
-# Cryptologer
-
-The cipher decryptor tool
+The cipher decryptor tool, made by me. It decrypts loads of ciphers mainly basic
