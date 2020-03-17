@@ -1,6 +1,5 @@
 ---
-title: 
-Angstromctf
+title: Angstromctf
 layout: post
 ---
 # Keysar
@@ -169,3 +168,10 @@ print(content)
 ```
 
 So simple right, we get *nl{it\>a\|<\l8P\\<\c<\b<\a{Pf|Pv?z}Pm\<|{Pi}f\<\akr* Xorring it again with 0xf we get... *actf{1nsp3c7_3l3m3nt_is_y0ur_b3st_fri3nd}* as our flag.
+
+
+# ws1
+
+### Misc
+
+### Points: 30
