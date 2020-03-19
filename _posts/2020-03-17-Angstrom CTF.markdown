@@ -296,3 +296,170 @@ The answer you get is a lot of data... if you grep or find for the flag using th
 
 *actf{inhale_exhale_ezpz-12309biggyhaby}* UwU!
 
+
+# Shifter
+
+### Misc
+
+### Points: 160
+
+### Description:
+What a strange challenge...
+
+It'll be no problem for you, of course!
+
+*nc misc.2020.chall.actf.co 20300*
+
+>Hint: Do you really need to calculate all those numbers?
+
+## Solution:
+Connecting to the netcat server we get this message... 
+
+*Solve 50 of these epic problems in a row to prove you are a master crypto man like Aplet123!
+You'll be given a number n and also a plaintext p.
+Caesar shift `p` with the nth Fibonacci number.
+n < 50, p is completely uppercase and alphabetic, len(p) < 50
+You have 60 seconds!*
+
+Easy right! We need just get the ciphertext message and the n from the request and return the correct plaintext value. Obviously doing it manually will be impossible in the given time frame, so writing a script is necessary.
+
+```python
+from pwn import *
+import re 
+r = remote('52.207.14.64',20300) 
+#r.send('Y')
+#print(r.recv())
+'''def fibonacci():
+	fibo=[0,1]
+	for i in range(48):
+		fibo.append(fibo[i]+fibo[i+1])
+
+	return fibo'''
+  
+def caeser(ciphertext,n):
+	fibo=[0, 1, 1, 2, 3, 5, 8, 13, 21, 34, 55, 89, 144, 233, 377, 610, 987, 1597, 2584, 4181, 6765, 10946, 17711, 28657, 46368, 75025, 121393, 196418, 317811, 514229, 832040, 1346269, 2178309, 3524578, 5702887, 9227465, 14930352, 24157817, 39088169, 63245986, 102334155, 165580141, 267914296, 433494437, 701408733, 1134903170, 1836311903, 2971215073, 4807526976, 7778742049]
+	shift=fibo[n]%26
+	alphabet='ABCDEFGHIJKLMNOPQRSTUVWXYZ'
+	plaintext=''
+	for i in ciphertext:
+		plaintext+=alphabet[alphabet.index(i)-(26-shift)]
+
+	return plaintext
+
+def netcat():
+	for i in range(51):
+		data=r.recv()
+		print(str(data))
+		ciphertext=re.findall('[A-Z]+',str(data))[-1]
+		if ciphertext=='': #sometimes the ciphertext is nothing and it returns an error
+			r.sendline(None)
+			continue
+		n=int(re.findall('\d+',str(data))[-1])
+		plaintext=caeser(ciphertext,n)
+		r.sendline(plaintext)
+
+netcat()
+#print(fibonacci())
+```
+
+I used the above func fibonacii to calculate the fibonacci series till the 50th element and then stored them directly in the variable. The hints points to not calculating `n`, it may mean this or something else? I am not exactly sure... Let me know if you get it!
+
+So yea.. run the above script where I used *remote* connection function from *pwntools*. There may be other methods as well but I like this...
+
+*actf{h0p3_y0u_us3d_th3_f0rmu14-1985098}* is the flag! 
+
+
+# One Time Bad
+
+### Crypto
+
+### Points: 100
+
+### Description:
+My super secure service is available now!
+
+Heck, even with [the source](https://files.actf.co/c9a06f7a95b1b6c75fd4a04dd2e557df1843186d5d744ce858cd7c98ecf2e05d/server.py), I bet you won't figure it out.
+
+*nc misc.2020.chall.actf.co 20301*
+
+## Solution:
+
+This one had me banging my heads for a while. I solved it after the CTF was over with help from John_Hammond do check out his channel [youtube](https://www.youtube.com/user/RootOfTheNull).
+
+```python
+import random, time
+import string
+import base64
+import os
+
+def otp(a, b):
+	r = ""
+	for i, j in zip(a, b):
+		r += chr(ord(i) ^ ord(j))
+	return r
+
+
+def genSample():
+	p = ''.join([string.ascii_letters[random.randint(0, len(string.ascii_letters)-1)] for _ in range(random.randint(1, 30))])
+	k = ''.join([string.ascii_letters[random.randint(0, len(string.ascii_letters)-1)] for _ in range(len(p))])
+
+	x = otp(p, k)
+
+	return x, p, k
+
+random.seed(int(time.time()))
+
+print("Welcome to my one time pad service!\nIt's so unbreakable that *if* you do manage to decrypt my text, I'll give you a flag!")
+print("You will be given the ciphertext and key for samples, and the ciphertext for when you try to decrypt. All will be given in base 64, but when you enter your answer, give it in ASCII.")
+print("Enter:")
+print("\t1) Request sample")
+print("\t2) Try your luck at decrypting something!")
+
+while True:
+	choice = int(input("> "))
+	if choice == 1:
+		x, p, k = genSample()
+		print(base64.b64encode(x.encode()).decode(), "with key", base64.b64encode(k.encode()).decode())
+
+	elif choice == 2:
+		x, p, k = genSample()
+		print(base64.b64encode(x.encode()).decode())
+		a = input("Your answer: ").strip()
+		if a == p:
+			print(os.environ.get("FLAG"))
+			break
+
+		else:
+			print("Wrong! The correct answer was", p, "with key", k)
+```
+
+The source gives us this one-time padding system where each character of the string is Xor-ed with the corresponding character of the key. Its notable that both the plaintext and key have the same length.
+
+Now normally for these types of questions, we give our user input to check the padding output or the question have us padded multiple things with the same key; hence letting us some idea about the key.
+ 
+But here we have nothing of such sorts... though the plaintext generation seems interesting hmmm...
+
+It takes a random integer between 1 and 30 to determine the length of the plaintext which is a ascii letter... so just maybe if we brute-force the system with just one ascii letter which has a possibility of happening, then we may have our flag...
+
+```python
+from pwn import *
+
+host="misc.2020.chall.actf.co" 
+port=20301
+
+s=remote(host,port)
+
+while 1:
+	s.sendline('2')
+	#print(s.recv())
+	s.sendline('A') #trying with capital 'A' coz wynaut...
+	answer=s.recv()
+	if b'actf' in answer:
+		print(answer)
+		exit()
+
+s.close()
+```
+
+It may take some time 2-5 minutes, yeah... but we get the answer, *actf{one_time_pad_more_like_i_dont_like_crypto-1982309}* 
+
