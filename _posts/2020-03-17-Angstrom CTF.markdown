@@ -577,7 +577,7 @@ Clam's a windows elitist and he just can't stand seeing all of these linux chall
  
 It was easy as day... just use strings and grep actf on the binary file and you will get the flag
 
->strings windows_of_opportuniy.exe | grep actf{.\*}
+>strings windows_of_opportuniy.exe \| grep actf{.\*}
 
 The flag comes as *actf{ok4y_m4yb3_linux_is_s7ill_b3tt3r}*
 
