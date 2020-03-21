@@ -538,3 +538,46 @@ print(flag)
 ```
 
 You get this sweet answer, *actf{down_to_the_decimal}*
+
+
+# Revving Up
+
+### Reverse
+
+### Points: 50
+
+### Descriprion:
+Clam wrote a [program](https://files.actf.co/e9eef8d8736ec555b0e4bfab4473a2027be7a08cc688f1dd07dafb8eb42ead90/revving_up) for his school's cybersecurity club's first rev lecture! Can you get it to give you the flag? You can find it at /problems/2020/revving_up on the shell server, which you can access via the "shell" link at the top of the site.
+
+## Solution:
+
+The program provided is a binary file... using strings in it we see this chunk...
+
+![rev](Snips/ANGS/REV1.PNG)
+
+So we need to just add *banana* as args while running the file and the program should throw us the flag.
+
+Trying this now in the shell,
+
+![revvv](Snips/ANGS/REV.PNG)
+
+*actf{g3tting_4_h4ng_0f_l1nux_4nd_b4sh}* is the flag text!
+
+
+# Windows of Opportunity
+
+### Reverse
+
+### Points: 50
+
+### Description:
+Clam's a windows elitist and he just can't stand seeing all of these linux challenges! So, he decided to step in and create his own [rev challenge](https://files.actf.co/240350c93b77621aaca286cac8c01b70be3aab4acbe9355f7f141716d0a6920e/windows_of_opportunity.exe) with the "superior" operating system.
+
+## Solution:
+ 
+It was easy as day... just use strings and grep actf on the binary file and you will get the flag
+
+>strings windows_of_opportuniy.exe | grep actf{.\*}
+
+The flag comes as *actf{ok4y_m4yb3_linux_is_s7ill_b3tt3r}*
+
