@@ -188,7 +188,7 @@ Opening wireshark, we find the flag by following the TCP stream 0 (tcp.stream eq
 
 ![tcp](Snips/ANGS/WIRE1.PNG)
 
-*actf{wireshark_isn't_so_bad_huh-a9d8g99ikdf}* 's the flag. Simple, right!'
+*actf{wireshark_isn't_so_bad_huh-a9d8g99ikdf}* 's the flag. Simple, right!
 
 
 # ws2
@@ -208,7 +208,7 @@ This one was nice and new. Opening it, you see a HTTP protocol having a JPEG ima
 
 ![WIRE2](Snips/ANGS/WIRE2.PNG)
 
-There maybe many more methods but I did this. If you come by any other, let me know. I saved the image as a .jpg file. But we still have that chunk data of unwanted text...
+There maybe many more methods but I did this. If you come by any other, let me know. I saved the image as a .jpg file. But we still have that chunk of unwanted text...
 
 Now open the image using ghex and select the unwanted hex data (before hex values FF D8) and use edit>cut
 
@@ -463,3 +463,78 @@ s.close()
 
 It may take some time 2-5 minutes, yeah... but we get the answer, *actf{one_time_pad_more_like_i_dont_like_crypto-1982309}* 
 
+
+# Confused Streaming
+
+### Crypto
+
+### Points: 100
+
+### Description:
+I made a [stream](https://files.actf.co/d3a7381b6dffcfdd427fd7f0e57221afcfbe8e4a3360dddfc55310b24cd4613b/chall.py) cipher!
+
+*nc crypto.2020.chall.actf.co 20601*
+
+## Solution:
+
+This is the most funny challenge, I solved in a while. The code here,,,
+
+```python
+from __future__ import print_function
+import random,os,sys,binascii
+from decimal import *
+try:
+	input = raw_input
+except:
+	pass
+getcontext().prec = 1000
+def keystream(key):
+	random.seed(int(os.environ["seed"]))
+	e = random.randint(100,1000)
+	while 1:
+		d = random.randint(1,100)
+		ret = Decimal('0.'+str(key ** e).split('.')[-1])
+		for i in range(d):
+			ret*=2
+		yield int((ret//1)%2)
+		e+=1
+try:
+	a = int(input("a: "))
+	b = int(input("b: "))
+	c = int(input("c: "))
+	# remove those pesky imaginary numbers, rationals, zeroes, integers, big numbers, etc
+	if b*b < 4*a*c or a==0 or b==0 or c==0 or Decimal(b*b-4*a*c).sqrt().to_integral_value()**2==b*b-4*a*c or abs(a)>1000 or abs(b)>1000 or abs(c)>1000:
+		raise Exception()
+	key = (Decimal(b*b-4*a*c).sqrt() - Decimal(b))/Decimal(a*2)
+except:
+	print("bad key")
+else:
+	flag = binascii.hexlify(os.environ["flag"].encode())
+	flag = bin(int(flag,16))[2:].zfill(len(flag)*4)
+	ret = ""
+	k = keystream(key)
+	for i in flag:
+		ret += str(next(k)^int(i))
+	print(ret)
+```
+
+It asks for us to enter 3 no.s *a,b and c* and then gives us conditions as whether to what their plausible values must be. If the values we enter satisfy the condition... then we get the flag.
+
+Now one may carefully dive into the code and make a script, but why do when its clean infront of us. The relations between a,b and c clearly scream the quadratic equation; *ax^2+bx+c=0* and the comments in the code *# remove those pesky imaginary numbers, rationals, zeroes, integers, big numbers, etc*, tells us what the solution must me.
+
+So, no imaginary no.s, zeroes, rationals, integers etc that leaves us only with *IRRATIONAL NUMBERS*. You dont even need a code for this... clearly you have studied enough quadratic equations in high-school to make a equation that has irrational roots. No? Simple man, take `b` to be larger than `a` and `c` and you are done 95% of times... heh? Here I am giving few examples but you may use any. a=1,b=5,c=1;a=2,b=13,c=3... sigh its so easy you will figure it out easily.
+
+Once you give away those values to the server,
+
+![LOL](Snips/ANGS/CONFUSED.PNG)
+
+you get a binary string now use this simple code to get the flag!
+
+```python
+import binascii
+a='01100001011000110111010001100110011110110110010001101111011101110110111001011111011101000110111101011111011101000110100001100101010111110110010001100101011000110110100101101101011000010110110001111101'
+flag=binascii.unhexlify(hex(int(a,2))[2:])
+print(flag)
+```
+
+You get this sweet answer, *actf{down_to_the_decimal}*
