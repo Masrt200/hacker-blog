@@ -629,6 +629,6 @@ The server goes on infinitely so using ctrl+c and then analysing the file, we ge
 
 Huh, so we need to type 'clamclam' for salvation... lets try echoing that to the server...
 
->*echo "clamclam" | nc misc.2020.chall.actf.co 20204*
+>*echo "clamclam" \| nc misc.2020.chall.actf.co 20204*
 
 Woo! we are instantly returned with th flag... *actf{cl4m_is_my_f4v0rite_ctfer_in_th3_w0rld}*
