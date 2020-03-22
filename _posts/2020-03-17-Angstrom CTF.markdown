@@ -581,3 +581,54 @@ It was easy as day... just use strings and grep actf on the binary file and you 
 
 The flag comes as *actf{ok4y_m4yb3_linux_is_s7ill_b3tt3r}*
 
+
+#Inputter
+
+### Misc
+
+### Points: 100
+
+### Description:
+Clam really likes challenging himself. When he learned about all these weird unprintable ASCII characters he just HAD to put it in a [challenge](https://files.actf.co/1d1b7b98e37d42fd514dda0a3aeac13da064206b51b07bd6366c8f469cf29736/inputter). Can you satisfy his knack for strange and hard-to-input characters? Source.
+
+Find it on the shell server at */problems/2020/inputter/.*
+
+## Solutions:
+
+It was simple but mind-boggling. My C skills are weak as of now... Hoping to improve them.
+
+Here, all you need to so is use printf func to pipe those unprintable charcater to the program and you are good to go.
+
+>printf '\x00\x01\x02\x03\n' \| ./inputter $' \n\'\"\x07'
+
+This gives us the flag, *actf{impr4ctic4l_pr0blems_c4ll_f0r_impr4ctic4l_s0lutions}*
+
+
+# clam clam clam
+
+### Misc
+
+### Points: 70
+
+### Description:
+clam clam clam clam clam clam clam clam clam *nc misc.2020.chall.actf.co 20204* clam clam clam clam clam clam
+
+>Hint: U+000D
+
+## Solution:
+
+The netcat server spams us some infinitely lines of clams and malcs... in what looks like flag format... 
+
+Ehh? We should analyse whatever is being send by piping it to a file. So,
+
+>*nc misc.2020.chall.actf.co 20204 > data.txt*
+
+The server goes on infinitely so using ctrl+c and then analysing the file, we get lots of clams amd malcs and some random bits of this message...
+
+![clam](Snips/ANGS/CLAM.PNG)
+
+Huh, so we need to type 'clamclam' for salvation... lets try echoing that to the server...
+
+>*echo "clamclam" | nc misc.2020.chall.actf.co 20204*
+
+Woo! we are instantly returned with th flag... *actf{cl4m_is_my_f4v0rite_ctfer_in_th3_w0rld}*
