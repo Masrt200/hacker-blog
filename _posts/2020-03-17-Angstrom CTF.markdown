@@ -631,4 +631,4 @@ Huh, so we need to type 'clamclam' for salvation... lets try echoing that to the
 
 >*echo "clamclam" \| nc misc.2020.chall.actf.co 20204*
 
-Woo! we are instantly returned with th flag... *actf{cl4m_is_my_f4v0rite_ctfer_in_th3_w0rld}*
+Woo! we are instantly returned with the flag... *actf{cl4m_is_my_f4v0rite_ctfer_in_th3_w0rld}*
