@@ -190,3 +190,192 @@ print(hastad(n1,n2,n3,c1,c2,c3))
 I used this code... pretty long right... you will soon find it in my D3crypt0r too!
 
 *LLS{the_chinese_remainder_theorem_is_so_cool}* is the sweet flag!
+
+
+# CALC-UL8R
+
+### Scripting
+
+### Points: 150
+
+### Description:
+Texas Instruments latest new product: you! Connect with: `nc jh2i.com 50003`
+
+## Solution:
+
+This is pretty simple is you are asked to do say ten such problems by hand but its not ten, probably a hundred or so. We are given simple one-variate maths equation and we have to return the value of the variable. At first I thought of getting the variables and constants and then operating some-how but that would be too much of a hassle. Then I remembered about the Python Module `Sympy`. It's the best for solving equation which are written in human-readable format.
+
+```python
+rom sympy.solvers import solve
+from sympy import Symbol,sympify
+from pwn import *
+import re
+import time
+
+s=remote('jh2i.com',50003)
+data=s.recvuntil('\n\n')
+while True:
+	time.sleep(1)
+	data=s.recv()
+	print(data)
+	if 'LLS' in data:
+		break
+	data=data.split(' ')
+	data=data[:-2]
+	data[-1]=data[-1][:-2]
+	eq=''.join(data)
+	sym_eq=sympify("Eq("+eq.replace("=",",")+")")
+	val=solve(sym_eq)[0]
+	print(val)
+	s.sendline(str(val))
+```
+
+That's the script I used... It takes the equation and sends the result.
+
+*LLS{sympy_to_solve_equations}* also nods to using **Sympy**
+
+
+# Gammer 
+
+### Scripting
+
+### Points: 125 
+
+### Description: 
+It's only one letter away! Connect with: `nc jh2i.com 50012`
+
+## Solution:
+
+This netcat server checks for each pos of the input flag... if that position has the correct letter the its returns *Correct* else *Wrong*... so we just need to build up the flag from the ground up!
+
+```python
+from pwn import *
+import re
+import time
+printable='LS}_{abcdefghijLklmnopqrstuvwxyzABCDEFGHIJKMNOPQRSTUVWXYZ0123456789'
+
+flag='LLS{'
+
+while 1:
+	for i in printable:
+		s=remote('jh2i.com',50012)
+		s.recv()
+		s.sendline(flag+str(i))
+		#time.sleep(5)
+		data=s.recvuntil('it!')
+		#print(i,data)
+		if 'WRONG' not in data:
+			flag+=i
+			print(flag)
+			break
+		else:
+			print('0')
+```
+
+For some reason, my script was detecting the *Wrong* return messsage on the same connection, so I had to reset the connection everytime and start a new one...
+
+It took some time but we finally we get the flag *LLS{bruteforce_with_a_hammer}*
+
+
+# 2xPAD 
+
+### Scripting
+
+### Points: 100
+
+### Description: 
+The latest and greatest encryption scheme, "two-time pad" is twice as secure as one time pads. Check it out! 
+
+## Solution:
+
+This challenge gives us two *.png* files to work with. They both contain a jibberish mix of pixels... so they first thing that comes to mind is X-ORing them. Now, I know this is a scripting challenges but sometimes other tools are already there. Use *stegsolve* here...!
+
+![PAD](Snips/VSCCTF/PAD.PNG)
+
+*LLS{dont_reuse_your_keys}* is the flag!
+
+
+# Pincode 
+
+### Scripting
+
+### Points: 75 
+
+### Description:
+This service needs a 4 digit pincode to authenticate... can you help me figure it out!?? Connect with: `nc jh2i.com 50031`
+
+
+## Solution:
+
+Now this was albiet, quite a easy challenge which took me an unfathomable amount of time. The server needed a 4-digit pass code, which when would give us the flag! Now at first I thought about a no. from the range *1000-9999*, normal right?! But even after iterating through it, I couldn't get the flag. Then something clicked and it tried from *0000-0999* and ho and behold it was just *0037* :C
+
+```python
+from pwn import *
+i=9999
+while i>=0:
+	s=remote('jh2i.com',50031)
+	print(s.recv())
+	e=str(i).zfill(4)
+	s.sendline(e)
+	a=s.recv()
+	print(e,a)
+	if 'LLS' in a:
+		break
+
+	i-=1
+```
+
+*LLS{for_i_in_0000_to_9999}*  is the shitty result!
+
+
+# Quick Run
+
+### Scripting
+
+### Points: 75 
+
+### Description:
+You gotta go fast!
+
+## Solution:
+
+The challenge gives us a zip file which has many QR-codes... now we can to it the oldfashioned way or use *zbarimg*
+
+I unzipped the file, removed it and used... `zbarimg * -q`
+
+We get a bunch of ascii codes, convert them to characters and we get the flag.
+
+*LLS{zbarimg_makes_qrcodes_easy}*
+
+
+# 2048
+
+### Scripting
+
+### Points: 75
+
+### Description:
+cGx6aGVscG1l
+
+## Solution:
+
+This chall gives us a text file which contains base64 encoded text decoding it once doesn't help so there must be multiple layers of base64 encodings
+
+```python
+import base64
+
+f=open('2048','r')
+data=f.read()
+f.close()
+for i in range(100):
+	try:
+		data=base64.b64decode(data)
+	except:
+		print(data)
+		break
+```
+
+Used it quickly put up scipt... *LCSC{i_hope_you_didnt_use_asciitohex.com}* is the flag~
+
+
+------------------------------------
