@@ -3,7 +3,7 @@ title: VIRSECCON CTF
 layout: post
 ---
 
-![Banner](Snips/VSCCTF/banner.PNG)
+![Banner](Snips/VSCCTF/banner.png)
 
 
 # Polybius
