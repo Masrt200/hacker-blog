@@ -378,4 +378,63 @@ for i in range(100):
 Quickly put up this scipt... *LCSC{i_hope_you_didnt_use_asciitohex.com}* is the flag~
 
 
+# Whitepages
+
+### Stego
+
+### Points: 80
+
+### Description:
+I stopped using yellow pages and moved onto white-pages... but the book they gave me is all blank.
+
+## Solution:
+
+Oh, Nostalgia is hard! This is the exact same problem and probably the same title and description used for one problem in PicoCTF 19... basically the text file uses two types of blank_space characters in it. So we take either as 0 or 1 and we should get the answer, after converting the binary to decimal
+
+```python
+from pwn import *
+f=open('white.txt','rb')
+data=f.read()
+data  = data.replace('e28083'.decode('hex'), '0').replace(' ', '1')
+print(unbits(data))
+```
+
+See, its that simple... *LLS{whitespace_steganography_in_the_empty_space}* is the flag!
+
+
+# Stegosaurus
+
+### Stego
+
+### Points: 70
+
+### Description:
+Scientists are struggling with a new mystery: we thought the dinosaurs were gone, but this one has returned! Hmm... can you solve this mystery?
+
+## Solution:
+
+Simple `stegsolve` problem that's it!
+
+![steg](Snips/VSCCTF/STEG.PNG)
+
+*LLS{you_stegsolved_the_mystery}*
+
+
+# Winter Wonderland
+
+### Stego
+
+### Points: 80
+
+### Description:
+It’s the holiday season! But hmm… they must be hiding something under all that cheer!
+
+## Solution:
+
+A bit misleading... at first I thought of rockstar but then after opening the file in sublime text... I saw all the trailing whitespaces and tabspaces... this could mean only *stegsnow* was used!
+
+Just use `stegsnow winter_wonderland.txt` and we were done!
+
+*LLS{let_it_snow_baby_let_it_reindeer}*
+
 
