@@ -375,7 +375,7 @@ for i in range(100):
 		break
 ```
 
-Used it quickly put up scipt... *LCSC{i_hope_you_didnt_use_asciitohex.com}* is the flag~
+Quickly put up this scipt... *LCSC{i_hope_you_didnt_use_asciitohex.com}* is the flag~
 
 
-------------------------------------
+
