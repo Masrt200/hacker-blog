@@ -126,7 +126,7 @@ First scale up the file so that the pixels are better readable...
 
 ```convert old_monitor.png -scale 300% pc.png```
 
-Then let's use the **Tesseract** no not the one with the time-stone... It's a Linux tool... Install it in Kali using *sudo apt-get install tesseract-orc*!
+Then let's use the **Tesseract** no not the one with the time-stone... It's a Linux tool... Install it in Kali using *sudo apt-get install tesseract-ocr*!
 
 Now let's extract the data...
 
