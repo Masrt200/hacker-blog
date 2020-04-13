@@ -1,0 +1,268 @@
+---
+title: DawgCTF
+layout: post
+---
+
+![Banner](Snips/DAWGCTF/BANNER.png)
+
+
+# Miracle Mile
+
+### Scripting
+
+### Points: 100 
+
+## Solution:
+
+The solution approach for this question required you to submit some answer based on the question. In this case, a runner as you to tell us his average time taken in running per mile given different scenarios... The answer was to be submitted as MM:SS format, which was cleared up by the admins in the discord server! They were very helpful.
+ 
+*for example*, the first question was I ran `18` in `2:22:03`... so first I converted the time into seconds which is `8523` seconds ... then I divided 18 and it went on easy from there...
+
+```python
+from pwn import *
+import re
+import time
+s=remote('ctf.umbccd.io',5300)
+
+s.recvuntil('-----------------------------------------')
+s.recvuntil('-----------------------------------------')
+while 1:
+	data=s.recv().decode('latin1')
+	print(data)
+	a=re.findall(r'\d*\.?\d+',data)
+	a=[float(i) for i in a]
+	print(a)
+	seconds=a[1]*3600+a[2]*60+a[3]
+	pace=seconds//a[0]
+	mint=pace//60
+	sec=pace%60
+	s.sendline('{}:{}'.format(mint,sec))
+```
+
+That's the script I wrote... and you get, *DawgCTF{doe5n't_ruNN1ng_sUcK?!}* as the flag!
+
+
+# Baby Onion
+
+### Scripting
+
+### Points: 150
+
+## Solution:
+
+This challenge required us to download a large file albiet 100mbs and to be honest... the real challenge was just downloading it for the challenge's sake... Not many would do so, seeing the file size but just downloading it was enough!
+
+The file is large text file with hex-data... you convert that to ascii and you get base64 data... you decode it and again meet with the hex chunk. From now its as clear as day
+
+```python
+import binascii
+import base64
+f=open('baby.onion')
+data=f.read().strip('\n')
+
+n=data
+while 1:
+	try:
+		n=binascii.unhexlify(n)
+	except:
+		print(n,"error")
+		break
+
+	try:
+		n=base64.b64decode(n)
+	except error as e:
+		print(n,"error")
+		break
+```
+
+That all you need to do, *DawgCTF{b@by_0n10ns_c@n_$t1ll_Mak3_u_cRy!?!?}* is the data-culprit!
+
+
+# Man these spot the difference games are getting hard
+
+### Scirpting
+
+### Points: 250
+
+### Solution:
+
+We are given some encrypted data and have a list of method in which we can decrypt it to get the plaintext... easy right?!
+
+Namely
+```
+- rot13
+- rot16
+- base64
+- base32
+- base16
+- atbash
+- affine with b=6, a=9
+- railfence with key=3
+```
+
+Indeed, unless you have next to nothing experience with how those encryptions work in the first place!
+
+To be honest...mmy [D3crypt0r](https://github.com/Masrt200/WoC2k19) tool helped me a lot with this and most of the decryption was done using it. Do check it out!
+
+```python
+def affine(ciphertext):  #also copied from d3crypt0r
+	a=9
+	b=6
+	plaintext=''
+	alphabet='abcdefghijklmnopqrstuvwxyz'
+	Ainv=mod_inverse(a,26)
+	for x in ciphertext:
+		ct=0
+		if x.isupper():
+			x=x.lower()
+			ct=1
+
+		if x in alphabet:
+			pos=ord(x)-97
+			z=(Ainv*(pos-b))%26
+			char=chr(z+97)
+			if ct==1:
+				char=char.upper()
+
+			plaintext+=char
+		else:
+			plaintext+=x
+
+	return plaintext
+
+
+def base16(cip):
+	cip=cip.encode()
+	return base64.b16decode(cip)
+
+def base32(cip):
+	cip=cip.encode()
+	return base64.b32decode(cip)
+
+def bs64(cip):
+	cip=cip.encode()
+	return base64.b64decode(cip)
+
+
+from pwn import *
+import base64
+import sys
+from sympy import mod_inverse
+
+sys.path.append('/root/Desktop/crypter/Decrypting/')
+sys.path.append('/root/Desktop/crypter/Encrypting/')
+
+from rot import rotate  #from d3crypt0r
+from atbash import atb  #from d3crypt0r
+from railfence_dec import fence  #from d3crypt0r
+
+modules={'rot13':rotate,'rot16':rotate,'base64':bs64,'base32':base32,'base16':base16,'atbash':atb,'affine':affine,'railfence':fence}
+
+
+r=remote('ctf.umbccd.io',5200)
+
+
+r.recvuntil('-----------------------------------------------------------------------')
+r.recvuntil('-----------------------------------------------------------------------')
+while 1:
+	cipher=r.recv().decode('utf-8')
+	cipher=cipher.strip('\n')
+	print(cipher)
+	plaintext=''
+	for i in modules:
+		if i=='rot13' or i=='rot16':
+			try:
+				plaintext=modules[i](cipher,int(i[-2:]))
+			except:
+				pass
+		elif i=='railfence':
+			try:
+				plaintext=fence(cipher,3)
+			except:
+				pass
+		else:
+			try:
+				plaintext=modules[i](cipher)
+			except:
+				pass
+		
+		try:
+			plaintext=plaintext.decode('utf-8','ignore')  #base32 padding sucks... always returns an error
+		except:
+			pass
+
+		if 'DOGECTF' in plaintext or 'DogeCTF' in plaintext:
+			print(plaintext,"OK")
+			r.sendline(plaintext)
+			break
+```
+
+Bit of a haphazaed but it works fine... also the best thing I learned is that you can use dictionaries to store functions as well... that helped a lot! You have to have those try and except statements because some decryption won't support the format of the encrypted text!
+
+*DawgCTF{w@iT_th3y_w3r3_d1ff3rent?!}*, was the difference maker!
+
+
+# Arthur Ashe
+
+### Scripting
+
+### Points: 150 
+
+## Solution:
+
+Now this in my mind is the best and ingenious CTF challengeI have solved in a while... the problem asks you to tell the winner of a tennis game/set/match by looking at the scores... some trial and error suggests that you have to tell if the second player wins or loses by returning `0` or `1`... The scores are easy to make sense if one knows tennis' scoring, but otherwise some googling would do it for you!
+
+Here's the catch, after returning the correct result of some 500 different questions, you are not given the flag but a message **You did well! Thank You!** 
+
+This was a brain-freezer, you can't possibly get anything from that... you try everything, sending this message switching to interactive mode, googling about Arthur Ashe and this words but nothing.
+
+At last you reach the discord server for help, the point you to look at the google results carefully... there is one of his qoutes says *the success doesn't matters, its the journey that you take does* or something along these lines.
+
+The journey huh...? It took me a while but my journey in getting the success (here *flag*)  was submitting `0`'s and `1`'s... oh `O`,`1`... oh, oh , OH?! That's binary... 
+
+If you collect all those correct answers you sent and convert them to ascii you get,,,
+
+```python
+# use with python3
+from pwn import *
+import binascii
+
+n=''
+
+r=remote('arthurashe.ctf.umbccd.io',8411)
+r.sendline('Y')
+data=r.recv()
+print(data)
+
+while 1:
+	result=r.recv().decode('latin1')
+	print(result)
+
+	if 'Thank' in result:
+		print(n)
+		n=int(n,2)
+		flag=binascii.unhexlify(hex(n)[2:])
+		print(flag)
+		break
+
+	score=(result.split(' '))[-1][:-1].split('-')
+	print(score)
+
+	a=score[0]
+	b=score[1]
+
+	if a.isdigit() and b.isdigit():
+		if int(a)<int(b):
+			tell='1'
+		else:
+			tell='0'
+	elif b in ['game','set'] or a=='love':
+		tell='1'
+	else:
+		tell='0'
+
+	r.send(tell)
+	n+=tell
+```
+
+The FLAG, *DawgCTF{L0v3_Me@n5_N07h1ng_!n_T#e_G@m3_Of_T3nn15.}*... again kudos to @plethoraconfusa, the author for this great challenge.
