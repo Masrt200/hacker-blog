@@ -22,11 +22,11 @@ We are given a large passage of encrypted ciphertext. Hmm, what could it be... T
 
 Using my self written code from my [D3crypt0r](https://github.com/Masrt200/WoC2k19), after saving the text to a file!
 
-![CH31](Snips/HOUSEPLANT/CH31.PNG)
+![CH31](Snips/HOUSEPLANT/CH31.png)
 
 Vigenere cipher without a key is done by frequnecy analysis of letters in an alphabet... doing so we get the key `tony`... Now onto the decryption!
 
-![CH32](Snips/HOUSEPLANT/CH32.PNG)
+![CH32](Snips/HOUSEPLANT/CH32.png)
 
 Simple, right! *rtcp{vinegar_on_my_fish_and_chips_please}* was the flag!
 
@@ -46,7 +46,7 @@ We are given a ciphertext with english-letter alphabet, bracesa and numbers in a
 
 I solved this too using my [D3crypt0r](https://github.com/Masrt200/WoC2k19)... plz do check it out!
 
-![RAIL](Snips/HOUSEPLANT/RAIL.PNG)
+![RAIL](Snips/HOUSEPLANT/RAIL.png)
 
 You can see clearly that `solution 2`; which means using 3 rails, we get a close enough answer that makes sense.
 
