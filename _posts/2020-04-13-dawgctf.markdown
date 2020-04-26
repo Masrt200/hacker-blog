@@ -14,9 +14,9 @@ layout: post
 
 ## Solution:
 
-The solution approach for this question required you to submit some answer based on the question. In this case, a runner as you to tell us his average time taken in running per mile given different scenarios... The answer was to be submitted as MM:SS format, which was cleared up by the admins in the discord server! They were very helpful.
+The solution approach for this question required you to submit some answer based on the question. In this case, a runner as you to tell us his average time taken in running per mile given different scenarios... The answer was to be submitted as `MM:SS` format, which was cleared up by the admins in the discord server! They were very helpful.
  
-*for example*, the first question was I ran `18` in `2:22:03`... so first I converted the time into seconds which is `8523` seconds ... then I divided 18 and it went on easy from there...
+*for example*, the first question was, I ran `18` in `2:22:03`... so first I converted the time into seconds which is `8523` seconds ... then I divided 18 and it went on easy from there...
 
 ```python
 from pwn import *
@@ -197,7 +197,7 @@ while 1:
 			break
 ```
 
-Bit of a haphazaed but it works fine... also the best thing I learned is that you can use dictionaries to store functions as well... that helped a lot! You have to have those try and except statements because some decryption won't support the format of the encrypted text!
+Bit of haphazard but it works fine... also the best thing I learned is that you can use dictionaries to store functions as well... that helped a lot! You have to have those try and except statements because some decryption won't support the format of the encrypted text!
 
 *DawgCTF{w@iT_th3y_w3r3_d1ff3rent?!}*, was the difference maker!
 
@@ -265,4 +265,4 @@ while 1:
 	n+=tell
 ```
 
-The FLAG, *DawgCTF{L0v3_Me@n5_N07h1ng_!n_T#e_G@m3_Of_T3nn15.}*... again kudos to @plethoraconfusa, the author for this great challenge.
+The **FLAG**, *DawgCTF{L0v3_Me@n5_N07h1ng_!n_T#e_G@m3_Of_T3nn15.}*... again kudos to @plethoraconfusa, the author for this great challenge.
