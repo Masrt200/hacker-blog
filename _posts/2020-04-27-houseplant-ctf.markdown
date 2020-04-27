@@ -340,7 +340,105 @@ We clearly see the ciphertext! Removing some spaces and adding some underscores 
 *rtcp{bacon_but_grilled_and_morsified}* was my dinner!
 
 
-# 
+# Parasite
+
+### Crypto
+
+### Points: 784
+
+### Description:
+paraSite Killed me A liTtle inSide
+
+Flag: English, case insensitive; turn all spaces into underscores
+
+>Hint: Make sure you keep track of the spacing- it's there for a reason
+
+## Solution:
+
+The file provided contains another morse-code... which decodes to this
+`JDU MEK KDF PUF PTK JEF LU GEUK CHK KUW FU BE`... minding the spaces, as the hint says!
+
+Now what?! I couldn't comeup with anything for a while until I read the description carefully. Some letters are capitalized randomly... they make up the word `SKATS`. A quick google search revealed `SKATS-Standard Korean Alphabet Transliteration System`! So yea... SKATS... Korea... it all made sense!
+
+Reading the [wikipedia](https://www.google.com/url?sa=t&rct=j&q=&esrc=s&source=web&cd=5&cad=rja&uact=8&ved=2ahUKEwjj2LnMqojpAhUowTgGHWIlDBoQFjAEegQIDRAF&url=https%3A%2F%2Fen.wikipedia.org%2Fwiki%2FSKATS&usg=AOvVaw21CmIEbulzyRq1qYcnDqby) article tells us how traditional Hangul script of South Korea was transliterated using SKATS to the english alphabet!
+
+So, we need a SKATS decoder but there isn't one... so lets try writing out the Korean letters with the given mapping using a [Korean Keyboard](https://www.branah.com/korean)
+
+It translites to something like this `희망은 진정한 기생충입니다` *p.s. I lost the actual message... I just translated back the flag*
+
+Translating it to english gives us... `Hope is a true parasite`. Sigh... almost learnt the Korean alphabet system doing so! No offences!
+
+*rtcp{Hope_is_a_true_parasite}* is the flag!
+
+
+# Post-Homework Death
+
+### Crypto
+
+### Points: 570
+
+### Description:
+My math teacher made me do this, so now I'm forcing you to do this too.
+
+Flag is all lowercase; replace spaces with underscores.
+
+>Hint: When placing the string in the matrix, go up to down rather than left to right.
+
+>Hint: Google matrix multiplication properties if you're stuck.
+
+## Solution:
+
+This was basically a maths question
+
+We are given a 3x3 decoding matrix, and a array of 21 numbers. Since the hint says multiplication, what we need to do is arrange the 21 numbers in a **3x7** matrix and multiply it with the decoding matrix!
+Also the hints states how to put the numbers in the matrix!
+
+```python
+import numpy as np
+
+a=[37,36,-1,34,27,-7,160,237,56,58,110,44,66,93,22,143,210,49,11,33,22]
+b=[[1.6,-1.4,1.8],[2.2,-1.8,1.6],[-1,1,-1]]
+C=np.matrix(b)
+D=np.matrix([a[::3],a[1::3],a[2::3]])
+
+A=np.matmul(C,D)
+
+plaintext=''
+for i in range(7):
+	for j in range(3):
+		pos=round(A[j,i])
+		plaintext+=chr(int(pos)+96)
+
+print(plaintext)
+```
+
+This simple script gives the output... apparently we have to use A1Z26 cipher to decode the final result!
+
+*rtcp{go_do_your_homework}* is the flag!
+
+
+# Broken Yolks
+
+### Crypto
+
+### Points: 50
+
+### Description:
+Fried eggs are the best.
+Oh no! I broke my yolk... well, I guess I have to scramble it now.
+
+Ciphertext: smdrcboirlreaefd
+
+>Hint: words are separated with underscores
+
+## Solution:
+
+This was solved by my team-mate and apparently is not a cipher. We just have to unscramble to letters of the ciphertext.
+
+Honestly, It could be child's play if you are good at it!
+
+*rtcp{scrambled_or_fried}* is my breakfast!
+
 
 
 
