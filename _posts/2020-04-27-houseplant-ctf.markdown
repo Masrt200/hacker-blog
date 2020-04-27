@@ -123,21 +123,21 @@ A while back I wrote a Python implementation of RSA, but Python's really slow at
 
 ## Solution:
 
-Another straight giveway... **Rivest Shamir Aldeman** is what RSA stands for #themakers! The `chall.7z` file given had a lot more things than expected... easy to have your head spining!
+Another straight giveway... **Rivest Shamir Aldeman** is what RSA stands for #themakers! The `chall.7z` file given, had a lot more things than expected... easy to have your head spining!
 
 ![RSA](Snips/HOUSEPLANT/RSA1.png)
 
 Now `encrypt.py` and `decrypt.py` is where my eyes went first... coz ofc. Both files... didn't give much, rather than getting the keys from from a file and performing encryption and decryption respectively. One key note is that a verification string was added *'VERIFICATION-UpTheCuts-END\n'* , which could be important if we decrypt using the `decrypt.py` file.
 
-**OK**, enough of crap! The real deal is the `generate_keys.py`!!
+**OK**, enough of this crap! The real deal is the `generate_keys.py`!!
 
 First we see two primality test funcs... one a general one and other a Miller_Rabin Test! There are a few more funcs... but the real hint lies at `line 115`...
 
 ![component](Snips/HOUSEPLANT/RSA2.png)
 
-You see, while generating primes... this func generates two primes but they changes the first prime to a value read from `component.txt` ... if a certain `primes.json` doesn't exists otherwise it reads the primes from it!... Now since, there isn't any primes.json we may assume that this is indeed the case!
+You see, while generating primes... this func generates two primes but it changes the first prime to a value read from `component.txt` ... if a certain `primes.json` doesn't exists otherwise it reads the primes from it!... Now since, there isn't any primes.json we may assume that this is indeed the case!
 
-So, its goes easy from here... we get one prime from `component.txt`, the public key from `piblic-key.json` and the ciphertext from `secrets.txt.enc` and play around. 
+So, its goes easy from here... we get one prime from `component.txt`, the public key from `public-key.json` and the ciphertext from `secrets.txt.enc` and play around. 
 
 ```python
 import json
@@ -162,7 +162,7 @@ There you go; we get the nice message as,
 
 *rtcp{f1xed_pr\*me-0r_low_e?}* is the flag! 
 
-Now as the hint says there is surely another way to find this `flag`. The flag reads *fixed prime or low e?*... I am pretty sure my method summarizes the fixed prime one! I wasn't able to look into the other because of ongoing contest but do give it a try! I will too!
+Now as the hint says there is surely another way to find this `flag`. The flag reads *fixed prime or low e?*... I am pretty sure my method summarizes the fixed prime one! I wasn't able to look into the other because of the ongoing contest but do give it a try! I will too!
 
 
 # Rainbow Vomit
@@ -186,13 +186,13 @@ A quick search of *Josh Cramer & hues of hex* as the hint says gave enough us in
 
 He used pixels of differnt colours arranged in 2x3 rectangles to encode the letters and numbers
 
-![Rainbow](Snips/HOUSEPLANT/Rainbow1.png)
+![Rainbow](Snips/HOUSEPLANT/RAINBOW1.png)
 
 Now this basically tells us what to do... lets look for a image to text decoder... oh wait, no ... NO... **NO!!**. There isn't any or one that I could find. So yea... fold up your sleeves and get ready to code! coz the image provided to us, as much as we can zoom would be painful to do it manually! 
 
 At 2000% zoom in a linux machine... we see this,
 
-![Rainbow2](Snips/HOUSEPLANT/Rainbow2.png)
+![Rainbow2](Snips/HOUSEPLANT/RAINBOW2.png)
 
 The image is 104X34 in dimensions and we can tell that there's a 2 pixel width of border... that would make our data 100x30 in dimensions, which fits as mulitples of our base rectangle dimensions!
 
@@ -329,7 +329,18 @@ Due to the COVID-19 outbreak, we ran all out of bacon, so we had to use up the o
 
 ## Solution:
 
+The hint here lies in the description as `bacon`. But the ciphertext file has something like morse-code! Simple... replace the `.`'s for `a`'s and `-`'s for `b`'s! 
 
+Next I used my [D3crypt0r](https://github.com/Masrt200/WoC2k19) to solve it.
+
+![BACON](Snips/HOUSEPLANT/Rainbow2.png)
+
+We clearly see the ciphertext! Removing some spaces and adding some underscores later...
+
+*rtcp{bacon_but_grilled_and_morsified}* was my dinner!
+
+
+# 
 
 
 
