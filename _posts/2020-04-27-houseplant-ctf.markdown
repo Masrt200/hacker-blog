@@ -440,5 +440,30 @@ Honestly, It could be child's play if you are good at it!
 *rtcp{scrambled_or_fried}* is my breakfast!
 
 
+# Ezoterik
+
+### Forensics
+
+### Points: 1334
+
+### Description:
+Inventing languages is hard. Luckily, there's plenty of them, including stupid ones.
+
+## Solution:
+
+As soon as you open, the image you see a strings of characters like `][+-.><` on the image. If you are familiar with esoteric languages, wou would have recognized this as `brain-fuck` characters. Brainfuck is a esoteric programming language that uses these characters to code stuff!
+
+Anyway, you joy down these characters from the image, and put them in a brainfuck decoder... I prefer [tio.run](https://tio.run/#brainfuck) only to get the result as `Yeah, no, sorry`!
+
+A great troll devised by the greatest of minds!... 
+
+**(Read @10x speed)**
+This challenge had nothing to do with esosteric languages... just do simple strings on the file and you will see a large chunk of data... looks like some lind of base-encoded stuff! Go to cyberchef and try all options and indeed it was *Base 58* encoded!
+
+We see a string of decimal numbers! Convert them to ascii and have the flag!
+
+*rtcp{Not quite normal stego_4xbb45gytj}* is the flag!
+  
+
 
 
