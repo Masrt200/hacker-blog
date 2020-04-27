@@ -525,6 +525,68 @@ We have two QR-codes... the upper and larger one gets you *rick-rolled*... the b
 Here have it, *rtcp{d1d-you_d0_7his_by_h4nd?}*
 
 
+# Zip-a-Dee-Doo-Dah
+
+### Misc
+
+### Points: 129
+
+### Description:
+I zipped the file a bit too many times it seems... and I may have added passwords to some of the zip files... eh, they should be pretty common passwords right?
+
+>Hint:A script will help you with this, please don't try do this manually...
+
+>Hint: All passwords should be in the SecLists/Passwords/xato-net-10-million-passwords-100.txt file, which you can get here : [Seclist](https://github.com/danielmiessler/SecLists/blob/master/Passwords/xato-net-10-million-passwords-100.txt)
+or alternatively, use "[git clone](https://github.com/danielmiessler/SecLists)"
+
+## Solution:
+
+At this point I officially hate these, unzipping a 1000 or more files problems... just this time some have passwords and they provide us with a passlist of some 100 passwords... we need to get Mr. John into this too! Seriously, this is a waste of his skills.
+
+```python
+import os
+import subprocess
+import re
+
+files=os.listdir('.')
+ignore=['1819','hash','passlist','crack.py']
+print(files)
+
+file='1819'
+while True:
+	typ=os.popen('file '+file).read()
+	print(typ)
+	if 'POSIX tar archive' in typ:
+		os.system('tar xvf '+file)
+	elif 'gzip compressed data' in typ and '.tar' in typ:
+		os.system('tar xvf '+file)
+	elif 'gzip compressed data' in typ and '.zip' in typ:
+		os.system('mv '+file+' '+file+'.gz')
+		os.system('gzip -d '+file+'.gz')
+	elif 'gzip compressed data' in typ and '.gz' in typ:
+		os.system('mv '+file+' '+file+'.gz')
+		os.system('gzip -d '+file+'.gz')
+	elif 'gzip compressed data' in typ:
+		os.system('gzip -d '+file)
+	elif 'Zip archive data' in typ:
+		os.system('zip2john '+file+' > hash')
+		os.system('john --wordlist=passlist hash')
+		password=os.popen('john --show hash').read().split(':')
+		os.system('unzip -P '+password[1]+' '+file)
+	else:
+		break
+
+	files=os.listdir('.')
+	for i in files:
+		if i not in ignore:
+			ignore.append(i)
+			file=i
+```
+
+Mr.John is the real hero... *rtcp{z1pPeD_4_c0uPl3_t00_M4Ny_t1m3s_a1b8c687}* 
+
+
+
 
 
 
