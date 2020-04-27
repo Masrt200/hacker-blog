@@ -451,6 +451,10 @@ Inventing languages is hard. Luckily, there's plenty of them, including stupid o
 
 ## Solution:
 
+![Ezo](Snips/HOUSEPLANT/EZO.png)
+
+>Inverted and Rotated
+
 As soon as you open, the image you see a strings of characters like `][+-.><` on the image. If you are familiar with esoteric languages, wou would have recognized this as `brain-fuck` characters. Brainfuck is a esoteric programming language that uses these characters to code stuff!
 
 Anyway, you joy down these characters from the image, and put them in a brainfuck decoder... I prefer [tio.run](https://tio.run/#brainfuck) only to get the result as `Yeah, no, sorry`!
@@ -458,12 +462,69 @@ Anyway, you joy down these characters from the image, and put them in a brainfuc
 A great troll devised by the greatest of minds!... 
 
 **(Read @10x speed)**
-This challenge had nothing to do with esosteric languages... just do simple strings on the file and you will see a large chunk of data... looks like some lind of base-encoded stuff! Go to cyberchef and try all options and indeed it was *Base 58* encoded!
+
+This challenge had nothing to do with esosteric languages... just do simple strings on the file and you will see a large chunk of data... looks like some kind of base-encoded stuff! Go to cyberchef and try all options and indeed it was *Base 58* encoded!
 
 We see a string of decimal numbers! Convert them to ascii and have the flag!
 
 *rtcp{Not quite normal stego_4xbb45gytj}* is the flag!
-  
+
+
+# Satan's Jigsaw
+
+### Misc
+
+### Points: 704
+
+### Description:
+Oh no! I dropped my pixels on the floor and they're all muddled up! It's going to take me years to sort all 90,000 of these again :(
+
+>Hint: long_to_bytes
+
+## Solution:
+
+This one was fun! The zip file gave us **90000** single pixels image files... and you could see where this is going! The hint *long_to_byes* is quite helpful... as taking the file names of those .jpg files and converting them to bytes gives us their position in the image! All that's left is scripting!
+
+```python
+import os
+from PIL import Image
+import binascii
+
+path='\\root\\Desktop\\Ctfs\\HouseplantCTF\\misc\\chall\\'
+files=os.listdir(path)
+
+pixy={}
+
+for i in files:
+	print(files.index(i))
+	name=int(i.strip('.jpg'))
+	pos=binascii.unhexlify(hex(name)[2:]).split()
+
+	im=Image.open(path+i)
+	pixels=im.load()
+	pix=pixels[0,0]
+
+	pixy[(int(pos[0]),int(pos[1]))]=pix
+
+print(len(pixy))
+
+im1=Image.new('RGB',(300,300))
+mixels=im1.load()
+
+for i in pixy:
+	mixels[i]=pixy[i]
+
+im1.save('satan.png')
+im1.show()
+```
+
+![SATUN](Snips/HOUSEPLANT/SATUN.png)
+
+We have two QR-codes... the upper and larger one gets you *rick-rolled*... the bottom one gives you the flag! At this point only remembering Rick's QR code was left!
+
+Here have it, *rtcp{d1d-you_d0_7his_by_h4nd?}*
+
+
 
 
 
