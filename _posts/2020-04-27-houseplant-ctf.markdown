@@ -42,7 +42,7 @@ They say life's a roller coaster, but to me, it's just jumping over fences.
 
 ## Solution:
 
-We are given a ciphertext with english-letter alphabet, bracesa and numbers in any jumbled order. Well, any hint... the title is suffice. `fences` here denote the railfence cipher.
+We are given a ciphertext with english-letter alphabet, brakets and numbers in any jumbled order. Well, any hint... the title is suffice. `fences` here denote the railfence cipher.
 
 I solved this too using my [D3crypt0r](https://github.com/Masrt200/WoC2k19)... plz do check it out!
 
@@ -333,7 +333,7 @@ The hint here lies in the description as `bacon`. But the ciphertext file has so
 
 Next I used my [D3crypt0r](https://github.com/Masrt200/WoC2k19) to solve it.
 
-![BACON](Snips/HOUSEPLANT/Rainbow2.png)
+![BACON](Snips/HOUSEPLANT/BACON1.png)
 
 We clearly see the ciphertext! Removing some spaces and adding some underscores later...
 
