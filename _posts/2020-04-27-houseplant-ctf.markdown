@@ -455,7 +455,7 @@ Inventing languages is hard. Luckily, there's plenty of them, including stupid o
 
 >Inverted and Rotated
 
-As soon as you open, the image you see a strings of characters like `][+-.><` on the image. If you are familiar with esoteric languages, wou would have recognized this as `brain-fuck` characters. Brainfuck is a esoteric programming language that uses these characters to code stuff!
+As soon as you open, the image you see a strings of characters like `][+-.><` on the image. If you are familiar with esoteric languages, you would have recognized this as `brain-fuck` characters. Brainfuck is an esoteric programming language that uses these characters to code stuff!
 
 Anyway, you joy down these characters from the image, and put them in a brainfuck decoder... I prefer [tio.run](https://tio.run/#brainfuck) only to get the result as `Yeah, no, sorry`!
 
