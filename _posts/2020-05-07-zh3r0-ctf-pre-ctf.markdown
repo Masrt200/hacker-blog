@@ -301,4 +301,55 @@ print(long_to_bytes(m))
 *zh3r0{Th1s_1s_4_K3y_gfh}* the flag or a key?
 
 
-#
+# Are you the Master? 3
+
+### Crypto
+
+### Points: 1199
+
+### Description:
+You must me the master to get till here.
+
+now give me the flag.
+
+drive part 2 folder.
+
+## Solution:
+
+In the drive folder we get a binary name `iv` and a `img.txt`. Now *iv* can only mean the initialization vector of an AES encrypted data!
+
+The flag from *Master_3* says its a key... so maybe thats all we need! Running the IV tho... prints the message It's a string, so maybe we have to do strings on it to get the iv!
+
+![master3](Snips/zh3r0/master3.png)
+
+The `H` character her seems unecessary so let's remove it! We get `Here is you IV: ryq9rkoU+XhtIuoFAvujDQ==`
+
+Its seems we are ready to decrypt!!!
+
+```python
+from Crypto.Cipher import AES
+from base64 import b64decode
+
+iv=b64decode('ryq9rkoU+XhtIuoFAvujDQ==')
+key='zh3r0{Th1s_1s_4_K3y_gfh}'
+
+dat=b64decode(open('img.txt','rb').read())
+
+cipher=AES.new(key,AES.MODE_CBC,iv)
+
+plaintext=b64decode(cipher.decrypt(dat))
+#print(plaintext)
+f=open('flag.png','wb').write(plaintext)
+```
+
+In the plaintext, we see corrupted PNG headers and also other corruptions. Lets fix those with ghex!
+
+![ghex](Snips/zh3r0/master32.png)
+
+Now we see the flag on opneing the file!
+
+![flag](Snips/zh3r0/master33.png)
+
+*zh3r0{You_are_master_Of_All_Arts}* Cheers!
+
+
