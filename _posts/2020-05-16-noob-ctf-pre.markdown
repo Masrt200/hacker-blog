@@ -3,7 +3,7 @@ title: Noob_CTF (Pre)
 layout: post
 ---
 
-![BANNER](Snips/noob0x1/BANNER.jpg)
+![BANNER](Snips/noob0x1/BANNER.png)
 
 # Fake IP
 
@@ -111,5 +111,30 @@ A while later the second hint was released i.e, to use common passwords. So use 
 `stegsnow -p 12345678 -C snow.txt`
 
 *noob{r3curs1v3_pr0xy_adm1r3_y0ur_kn0wl3dg3}* Thanks!
+
+
+# Television Transmission
+
+### Forensics
+
+### Points: 300
+
+### Description:
+Google "Slow Scan Television Transmission". You will learn something new for sure.
+
+>Hint:Do you know about LSB? Remember don't get trolled :)
+
+## Solution:
+
+Another wierd one huh? Mr. Proxy! Well, as the title and everything says we ought to use [SSTV](https://www.google.com/url?sa=t&rct=j&q=&esrc=s&source=web&cd=11&cad=rja&uact=8&ved=2ahUKEwipqq-KjLjpAhUJwzgGHeTkAEkQFjAKegQIAxAB&url=https%3A%2F%2Fen.wikipedia.org%2Fwiki%2FSlow-scan_television&usg=AOvVaw3nYA14yEsOmzfwLWYjfL-g) for this. Going that route we get trolled by a smiley face laughing at us... so what to do?
+
+The hint says lsb... set lets look for a lsb-tool on `.wav` files. We find [stegolsb](https://pypi.org/project/stego-lsb/)!
+
+Using this tool was bit of a hassle but I got it!
+
+`stegolsb wavsteg -r -i audio.wav -o output.txt -n 1 -b 100`
+
+The `wavsteg` is used for .wav file steganography! Running it you get the flag,
+*noob{lsb_c4n_h4v3_s0m3_ju1cy_d4t4}*. I leant...
 
 
