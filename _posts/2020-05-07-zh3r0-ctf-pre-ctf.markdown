@@ -156,7 +156,7 @@ ob.write(test)
 ob.close()
 ```
 
-At first the hint which is important is encrypted with `(e,n)`. Info about `n` is in `key` which is `x-y`or`y-x`! Simple qudractic here... `x\*\*2+key\*x-n=0` will give us x,y!
+At first the hint which is important is encrypted with `(e,n)`. Info about `n` is in `key` which is `x-y`or`y-x`! Simple qudractic here... `x**2+key*x-n=0` will give us x,y!
 
 ```python
 from Crypto.Util.number import inverse,long_to_bytes
@@ -260,7 +260,7 @@ Now after sneding few hours trying bi-quadractics, getting __iotas__ and skimmin
 
 ![master0](Snips/zh3r0/master1.png)
 
-See, this way we get a quadratci in `sq` which fun fact... also gives `pr` as its other root! So, when we get `pr` and `sq`, we can perform __GCD__ on it and obtain *p,q,r and s*!!
+See, this way we get a quadratic in `sq` which fun fact... also gives `pr` as its other root! So, when we get `pr` and `sq`, we can perform __GCD__ on it with `N1` and `N2` and obtain *p,q,r and s*!!
 
 ```python
 from sympy import Symbol,solve
