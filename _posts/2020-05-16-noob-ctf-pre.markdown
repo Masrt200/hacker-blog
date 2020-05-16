@@ -138,3 +138,33 @@ The `wavsteg` is used for .wav file steganography! Running it you get the flag,
 *noob{lsb_c4n_h4v3_s0m3_ju1cy_d4t4}*. I leant...
 
 
+# Web Steg
+
+### Misc
+
+### Points: 300
+
+### Description:
+Combination of web and stegnography is amazing.You have to think out of the box.
+
+[link](https://chall.noobarmy.tech/web_steg/)
+
+>Hint:Check the deliver to page.
+
+## Solution:
+
+This chall had the worst name ever, as discussed with the author! We are given a link to site whose source code doesn't gives much!
+
+Initially I thought I had to do something with those the various image link available but it was a dead-end. Then one of the `.css` files had a image link but it was useless as well.
+
+A lot dicussion with the author later and slamming my head a lot, the `dform.html` link had something to do with it!
+
+![BANNER](Snips/noob0x1/websteg.png)
+
+As you can see the are a no. of whitespaces or tabspaces even after where the text ends. This means only one thing... **stegsnow**. You seem to like it a lot author!
+
+copy the text in the source-code of `dform.html` and put it into a text file! Use,
+
+`stegsnow -C troll`
+
+*noob{w3b_and_f0r3ns1c_c0mb1n4t10n}*. I have my doubts **400%!**
