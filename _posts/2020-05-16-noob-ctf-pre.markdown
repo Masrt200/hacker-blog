@@ -159,7 +159,7 @@ Initially I thought I had to do something with those the various image link avai
 
 A lot dicussion with the author later and slamming my head a lot, the `dform.html` link had something to do with it!
 
-![BANNER](Snips/noob0x1/websteg.png)
+![webby](Snips/noob0x1/websteg.png)
 
 As you can see the are a no. of whitespaces or tabspaces even after where the text ends. This means only one thing... **stegsnow**. You seem to like it a lot author!
 
@@ -168,3 +168,69 @@ copy the text in the source-code of `dform.html` and put it into a text file! Us
 `stegsnow -C troll`
 
 *noob{w3b_and_f0r3ns1c_c0mb1n4t10n}*. I have my doubts **400%!**
+
+
+# Deoxyribonucleic
+
+### Crypto
+
+### Points: 300
+
+### Description:
+I always wonder how we match to our ancestor?
+
+Not that E4sy! Think out of the BOX :)
+
+>Hint:Heard About CTF KATANA???
+
+## Solution:
+
+Doing this just bcoz I am crypto guy! I knew about this but thought about using the DNA-codons approach... then they released the hint to CTF_Katana and I was sure!
+
+![dna](Snips/noob0x1/dna.png)
+
+The thing is we have this binary to DNA code,
+
+```
+A-00
+T-11
+C-10
+G-01
+```
+
+So we need to decode the binary strings given in the text file as per this intruction!
+
+```python
+data=<REDACTED>
+data=data.split(' ')
+
+code={'00':'A','11':'T','10':'C','01':'G'}
+
+#converting the binary string to DNA code!
+for i in data:
+	c=code[i[:2]]+code[i[2:4]]+code[i[4:]]
+	data[data.index(i)]=c
+
+#print(' '.join(data))
+
+dna_alpha={}
+alphabet='abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890 .'
+#print(len(alphabet))
+
+#translating the DNA code to english alphabet
+for i in range(0,64):
+	bi=bin(i)[2:].zfill(6)
+	c=code[bi[:2][::-1]]+code[bi[2:4][::-1]]+code[bi[4:][::-1]]  
+	#[::-1] is important if you use the conversion from binary approach!
+	dna_alpha[c]=alphabet[i]
+
+#print(dna_alpha)
+
+plain=''
+for i in data:
+	plain+=dna_alpha[i]
+
+print(plain)
+```
+
+*noob{n00b_4rmy_601n6_70_r0ck_0n3_d4y}*... solved this in the penultimate minute LMAO!
