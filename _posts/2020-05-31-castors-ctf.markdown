@@ -3,7 +3,7 @@ title: Castors-CTF
 layout: post
 ---
 
-![BANNER](Snips/CASTOR/BANNER.ppg)
+![BANNER](Snips/CASTOR/BANNER.png)
 
 # Arithmetic
 
