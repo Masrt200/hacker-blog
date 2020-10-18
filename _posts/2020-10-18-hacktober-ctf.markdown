@@ -7,7 +7,7 @@ layout: post
 
 ### Crypto
 
-### Points: 400 
+### Points: 400
 
 ## Solution
 
