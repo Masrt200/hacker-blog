@@ -7,7 +7,7 @@ layout: post
 
 ### Crypto
 
-### Points 400 (I gs... dont remember)
+### Points: 400 
 
 ## Solution
 
@@ -23,7 +23,7 @@ A quick google search gives a blog about highschool students using the calculato
 
 **1337 DUh!**
 
-So SHOELESS HELLHOLE should become *54037355 43774073*!! But it was clearly said in those blog that the message is readable when the calculator is read upside down... So in order for the message to be read SHOELESS HELLHOLE when upside down, we must type **37047734 55373045** !!
+So SHOELESS HELLHOLE should become *54037355 43774073*!! But it was clearly said in those blogs that the message is readable when the calculator is read upside down... So in order for the message to be read SHOELESS HELLHOLE when upside down, we must type **37047734 55373045** !!
 
 ![down](Snips/Hacktober/upside.png)
 
